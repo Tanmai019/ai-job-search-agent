@@ -1,152 +1,194 @@
-# AI Agent for Intelligent Job Search and Resume Optimization
+# AI Job Search Agent
 
-This project implements a single LLM-based AI agent for job filtering, ranking, and resume tailoring.
+AI-powered job search and resume optimization system that uses LLM-driven reasoning, tool orchestration, and workflow automation to filter opportunities, rank job matches, and tailor resumes for specific roles.
 
-The agent:
-- loads a candidate profile and job dataset
-- uses LLM reasoning to decide which tool to call
-- filters jobs
-- ranks the filtered jobs
-- selects the best matching job
-- tailors the resume summary and exactly two experience bullet points
+This project demonstrates how AI agents can automate parts of the modern job application workflow using structured reasoning, retrieval pipelines, and resume adaptation techniques.
 
-This project was built for the AI for Engineers assignment: `AI Agent for Intelligent Job Search and Resume Optimization`.
+---
 
-## Project Structure
+# Tech Stack
+
+`Python` `LLMs` `Gemini API` `Groq API` `NLP` `AI Agents` `Automation` `Pandas`
+
+---
+
+# Project Overview
+
+The system implements a single-agent workflow that:
+
+- loads candidate profiles and job datasets
+- filters relevant opportunities
+- ranks jobs based on candidate fit
+- selects the strongest match
+- generates tailored resume content for the selected role
+
+The workflow combines:
+- LLM reasoning
+- tool calling
+- structured ranking logic
+- automated resume tailoring
+
+---
+
+# Features
+
+- AI-driven job filtering
+- Job ranking and scoring workflows
+- Resume tailoring automation
+- Tool-based agent orchestration
+- Structured reasoning traces
+- Artifact generation for downstream review
+
+---
+
+# Repository Structure
 
 ```text
-JobSearch_Agent/
+ai-job-search-agent/
 ├── main.py
 ├── requirements.txt
 ├── README.md
 ├── data/
-│   ├── jobs_output.csv
-│   ├── candidate_profile.json
-│   └── base_resume.txt
 ├── tools/
-│   ├── filtering.py
-│   ├── ranking.py
-│   └── tailoring_resume.py
 ├── scripts/
-│   └── scrape_jobs.py
 ├── tests/
-│   ├── test_filtering.py
-│   ├── test_ranking.py
-│   └── test_main.py
 └── artifacts/
 ```
 
-## Requirements
+---
 
-- Python 3.10+
-- A Gemini API key for the main agent
-- A Groq API key for the resume tailoring tool
-- A SerpAPI key only if you want to regenerate the job dataset
+# Core Components
 
-## Installation
+## Agent Orchestration
 
-From the project folder:
+`main.py`
+- coordinates the full agent workflow
+- manages tool execution
+- handles reasoning flow and output generation
+
+---
+
+## Filtering Tool
+
+`tools/filtering.py`
+- narrows the job list using candidate preferences and constraints
+
+---
+
+## Ranking Tool
+
+`tools/ranking.py`
+- scores filtered jobs
+- ranks opportunities based on relevance and fit
+
+---
+
+## Resume Tailoring Tool
+
+`tools/tailoring_resume.py`
+- rewrites resume summaries
+- adapts experience bullet points
+- optimizes content for target job alignment
+
+---
+
+## Dataset Generation
+
+`scripts/scrape_jobs.py`
+- generates job datasets and supporting inputs
+- supports optional dataset regeneration workflows
+
+---
+
+# Installation
+
+## Create Virtual Environment
 
 ```bash
-cd /Users/archana/Documents/SP2026/AI_For_Engg/Assignment2/JobSearch_Agent
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Environment Variables
+---
 
-Set both API keys before running:
+# Environment Variables
 
-```bash
-export GEMINI_API_KEY='your_gemini_api_key'
-export GROQ_API_KEY='your_groq_api_key'
-```
-
-You can verify that they are set with:
+Set required API keys before running:
 
 ```bash
-python - <<'PY'
-import os
-print("GEMINI_API_KEY set:", bool(os.getenv("GEMINI_API_KEY")))
-print("GROQ_API_KEY set:", bool(os.getenv("GROQ_API_KEY")))
-PY
+export GEMINI_API_KEY="your_gemini_api_key"
+export GROQ_API_KEY="your_groq_api_key"
 ```
 
-If you want to regenerate the dataset from the scraping script, also set:
+Optional dataset regeneration:
 
 ```bash
-export SERPAPI_KEY='your_serpapi_key'
+export SERPAPI_KEY="your_serpapi_key"
 ```
 
-## How to Run
+---
 
-Run the full agent with:
+# Running The Project
+
+Run the complete agent workflow:
 
 ```bash
 python main.py
 ```
 
-## Expected Agent Flow
+---
 
-When the script runs, the agent should:
+# Expected Workflow
 
-1. Load the dataset and candidate profile.
-2. Use `filtering_tool` to narrow the job list.
-3. Use `ranking_tool` to score and rank filtered jobs.
-4. Use `resume_tailoring_tool` for the selected best job.
-5. Produce a final recommendation and tailored resume output.
+The agent performs the following sequence:
 
-In the terminal, you should see:
-- agent reasoning for each turn
-- tool calls in sequence
-- filtered jobs
-- ranked jobs
-- tailored summary
-- tailored experience bullets
+1. Load candidate profile and job dataset
+2. Filter relevant job opportunities
+3. Rank jobs based on candidate fit
+4. Select the best-matching role
+5. Generate tailored resume content
+6. Save reasoning traces and outputs
 
-## Output Files
+---
 
-After a successful run, the following files are written to `artifacts/`:
+# Generated Outputs
 
-- `trace.json`
-  - full reasoning trace and tool calls
-- `tailored_resume.json`
-  - structured tailored resume output
-- `tailored_resume.txt`
-  - plain-text tailored resume output
+The system writes structured outputs to:
 
-Additional CSV artifacts are also written for filtered and ranked job outputs.
+```text
+artifacts/
+```
 
-## Input Files
+Generated artifacts include:
 
-The main inputs are:
+- reasoning traces
+- ranked job outputs
+- filtered job datasets
+- tailored resume JSON
+- tailored resume text outputs
 
-- `data/jobs_output.csv`
-  - AI/ML job postings used by the agent
-- `data/candidate_profile.json`
-  - candidate skills, years of experience, and preferred locations
-- `data/base_resume.txt`
-  - base resume used for resume tailoring
+---
 
-These files can also be regenerated using `scripts/scrape_jobs.py`.
+# Input Data
 
-## Main Files
+Primary inputs:
 
-- `main.py`
-  - orchestrates the full LLM-driven agent loop
-- `tools/filtering.py`
-  - applies rule-based filtering
-- `tools/ranking.py`
-  - scores and ranks filtered jobs
-- `tools/tailoring_resume.py`
-  - rewrites the resume summary and two experience bullet points
-- `scripts/scrape_jobs.py`
-  - generates `data/jobs_output.csv`, `data/candidate_profile.json`, and `data/base_resume.txt`
+- candidate profile
+- base resume
+- job posting dataset
 
-## Tests
+Stored under:
 
-Run the test files individually if needed:
+```text
+data/
+```
+
+---
+
+# Testing
+
+Run tests individually:
 
 ```bash
 pytest tests/test_filtering.py -q
@@ -154,40 +196,43 @@ pytest tests/test_ranking.py -q
 pytest tests/test_main.py -q
 ```
 
-If `pytest` has issues in a local Anaconda/Python environment, the main script can still be validated by running:
+---
 
-```bash
-python main.py
-```
+# Skills Demonstrated
 
-## Optional Dataset Regeneration
+- AI agent orchestration
+- LLM workflow automation
+- Tool-calling systems
+- Resume optimization pipelines
+- NLP workflows
+- Structured ranking systems
+- Python backend development
+- Automation engineering
 
-To regenerate the dataset and supporting input files, run:
+---
 
-```bash
-python scripts/scrape_jobs.py
-```
+# Limitations
 
-This script writes:
-- `data/jobs_output.csv`
-- `data/candidate_profile.json`
-- `data/base_resume.txt`
+- Current workflow uses a single-agent architecture
+- Resume tailoring quality depends on LLM outputs
+- Ranking logic is heuristic-based rather than learned
+- External API availability affects runtime reliability
 
-This step is optional for grading. The main agent can be run directly with the files already included in `data/`.
+---
 
-## Notes
+# Future Improvements
 
-- The project currently uses `google.generativeai` for Gemini integration.
-- You may see a deprecation warning from Google about that SDK. The script still runs, but the package has been deprecated upstream.
-- Resume tailoring depends on the Groq API being available and the `GROQ_API_KEY` being set.
-- Dataset scraping depends on SerpAPI being available and the `SERPAPI_KEY` being set.
+- Multi-agent orchestration
+- Real-time job ingestion pipelines
+- Vector search for semantic matching
+- User feedback learning loops
+- Web application deployment
+- Advanced ATS optimization workflows
 
-## Demo Summary
+---
 
-This project satisfies the assignment pipeline by showing:
-- single-agent LLM reasoning
-- tool-calling
-- job filtering
-- job ranking
-- final best-job recommendation
-- resume tailoring output
+# Notes
+
+- API keys and sensitive environment variables were excluded from the repository.
+- Large generated artifacts and datasets were minimized for GitHub upload.
+- This project was originally developed as part of an AI systems engineering assignment and later cleaned into a portfolio-ready implementation.
